@@ -21,16 +21,23 @@
 
 ## 🔄 릴리스 워크플로우 (Release Workflows)
 
-프로젝트 통합 및 파이프라인 흐름은 다음과 같습니다.
-- `IMPORT1` & `IMPORT2` ➞ **`PATCH` (통합)** ➞ `MAIN`
-- `IMPORT3` ~~& `IMPORT4`~~ ➞ `SETUP` ➞ **`setup` (통합)** ➞ `MAIN`
+Releases Board의 파이프라인은 크게 **세 가지 스트림(Stream)**으로 나뉘어 관리되며, 각 배포/통합 단계마다 고유한 **TAG**가 부여됩니다. 아래의 DAG 다이어그램 레이아웃에 맞춰 전체 흐름을 이해할 수 있습니다.
 
-**[진행 상황 특징]**
-- 각 배포 단계별로 **TAG**가 부여되어 관리됩니다.
-- 🚫 **`IMPORT4` ➞ `SETUP` 경로 중단**: `IMPORT4`에서 `SETUP`으로 이어지던 흐름은 통합이 완료/변경되어 더 이상 사용되지 않습니다. **(완료 / 회색 표시)**
-- 🔄 **그 외 파이프라인**(`IMPORT1`, `IMPORT2`, `IMPORT3` 경로)은 현재 **동시에 (병렬로) 계속 진행 중**입니다. 
-- 🔗 **PATCH / SETUP 브랜치 통합**: `IMPORT1`과 `IMPORT2`의 수정 사항은 `PATCH` 브랜치로 함께 관리되며, `IMPORT3`의 흐름은 `SETUP` 및 `setup` 브랜치로 통합 관리됩니다.
-- **새로운 릴리스 흐름**: `MAIN` 브랜치를 바탕으로 향후 기타 흐름들이 계속 통합될 예정입니다.
+### 1. IMPORT Source Stream (기초 작업)
+각기 다른 요구사항이나 환경을 위한 기초 분기 브랜치들입니다.
+- `IMPORT1`, `IMPORT2`, `IMPORT3` 브랜치는 각각 독립적인 변경 사항을 달고 **병렬로 진행 및 관리**됩니다.
+- 🚫 **참고**: `IMPORT4` 브랜치 흐름은 통합 시스템 변경으로 인해 현재는 **사용이 중단(Deprecated)** 되었습니다.
+
+### 2. Integration Streams (통합 과정)
+각 Source 브랜치들의 변경 사항을 하나로 합치거나 묶는 중간 과정입니다.
+- **PATCH 통폐합**: `IMPORT1`과 `IMPORT2`의 주요 코드는 하나의 **`PATCH (Merged)`** 브랜치로 함께 통합 관리됩니다.
+- **SETUP 통폐합**: `IMPORT3`의 변경 사항과 각종 설정은 **`SETUP (Merged)`**을 거쳐 **`setup (Merged)`** 브랜치로 단계적인 통합을 거치게 됩니다.
+
+### 3. Target Stream (최종 반영)
+- Integration Stream을 거친 `PATCH`와 `setup` 브랜치의 최종 산출물들은 모두 **`MAIN` 브랜치**로 모여 최종 릴리스(Release Candidate) 자산으로 취합됩니다.
+- **새로운 릴리스 흐름**: 이렇게 확보된 `MAIN` 브랜치의 태그를 기준점(Base) 삼아 향후 기타 추가 흐름들이 파생되거나 계속 통합될 예정입니다.
+
+---
 
 ### 📊 브랜치별 TAG 적용 현황 (DAG 표현)
 
