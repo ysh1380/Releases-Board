@@ -79,19 +79,4 @@ graph LR
 
 *참고: 위 TAG 명칭(v1.0.0 등)은 예시입니다. 실제 프로젝트의 태그 버전으로 관리됩니다.*
 
-## 🛠 기술 스택 (Tech Stack - 예정)
-- **Frontend**: (추후결정 - React / Vue / Next.js 등)
-- **Backend**: (추후결정 - Spring Boot / Node.js / Python 등)
-- **Database**: (추후결정 - PostgreSQL / MySQL / MongoDB 등)
-- **Infra/Deploy**: (추후결정 - Docker, Kubernetes, AWS 등)
-
-## 📂 프로젝트 구조 (Project Structure)
-*프로젝트 초기 설정이 완료된 후 구체적인 코드 베이스 구조에 대해 업데이트될 예정입니다.*
-
-## 🚀 로컬 환경 실행 가이드 (Getting Started)
-*환경 설정 및 빌드/실행 방법이 결정되면 여기에 작성됩니다.*
-
-## 📝 협업 가이드 (Contribution Guide)
-- **브랜치 전략 (Branch Strategy):** 예) Git Flow 또는 GitHub Flow
-- **커밋 컨벤션 (Commit Convention):** 예) `feat:`, `fix:`, `docs:` 등의 접두사 활용
-- **코드 리뷰 (Code Review):** PR(Pull Request) 시 최소 1인 이상의 승인 필수
+```
