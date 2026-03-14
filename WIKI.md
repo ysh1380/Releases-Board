@@ -35,17 +35,17 @@
 ```mermaid
 graph LR
     %% Branch/Node Definition
-    I1[IMPORT1<br/>TAG: v1.0.0-imp1]
-    I2[IMPORT2<br/>TAG: v1.0.0-imp2]
-    I3[IMPORT3<br/>TAG: v1.0.0-imp3]
+    I1["IMPORT1<br/>(Base: v0.9.0)<br/>TAG: v1.0.0-imp1"]
+    I2["IMPORT2<br/>(Base: v0.9.0)<br/>TAG: v1.0.0-imp2"]
+    I3["IMPORT3<br/>(Base: v0.9.0)<br/>TAG: v1.0.0-imp3"]
     
-    P1[PATCH<br/>TAG: v1.0.1-patch]
-    P2[PATCH<br/>TAG: v1.0.2-patch]
+    P1["PATCH<br/>(Base: v1.0.0-imp1)<br/>TAG: v1.0.1-patch"]
+    P2["PATCH<br/>(Base: v1.0.0-imp2)<br/>TAG: v1.0.2-patch"]
     
-    S1[SETUP<br/>TAG: v1.0.0-setup]
-    S2[setup2<br/>TAG: v1.0.1-setup]
+    S1["SETUP<br/>(Base: v1.0.0-imp3)<br/>TAG: v1.0.0-setup"]
+    S2["setup2<br/>(Base: v1.0.0-setup)<br/>TAG: v1.0.1-setup"]
     
-    M[MAIN<br/>TAG: v1.1.0-RC]
+    M["MAIN<br/>(Base: MERGED)<br/>TAG: v1.1.0-RC"]
 
     %% Flow Definitions
     I1 --> P1
