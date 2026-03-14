@@ -36,38 +36,40 @@
 
 ```mermaid
 graph LR
-    %% Branch/Node Definition
-    I1["IMPORT1<br/>(Base: v0.9.0)<br/>TAG: v1.0.0-imp1"]
-    I2["IMPORT2<br/>(Base: v0.9.0)<br/>TAG: v1.0.0-imp2"]
-    
-    I3["IMPORT3<br/>(Base: v0.9.0)<br/>TAG: v1.0.0-imp3"]
-    I4["IMPORT4 (사용 안 함)<br/>(Base: v0.9.0)<br/>TAG: v1.0.0-imp4"]
-    
-    P["PATCH (Merged)<br/>(Base: v1.0.0-imp1/2)<br/>TAG: v1.0.1-patch"]
-    
-    S1["SETUP (Merged)<br/>(Base: v1.0.0-imp3)<br/>TAG: v1.0.0-setup"]
-    S2["setup (Merged)<br/>(Base: v1.0.0-setup)<br/>TAG: v1.0.1-setup"]
-    
-    M["MAIN<br/>(Base: MERGED)<br/>TAG: v1.1.0-RC"]
+    %% Branch/Node Definition & Styling Defaults
+    classDef importNode fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#01579b,rx:10,ry:10;
+    classDef patchNode fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#e65100,rx:5,ry:5;
+    classDef setupNode fill:#e8f5e9,stroke:#388e3c,stroke-width:2px,color:#1b5e20,rx:5,ry:5;
+    classDef mainNode fill:#fce4ec,stroke:#c2185b,stroke-width:3px,color:#880e4f,rx:15,ry:15;
+    classDef dimmed fill:#f8f9fa,stroke:#ced4da,stroke-width:1px,color:#adb5bd,stroke-dasharray: 4 4,rx:10,ry:10;
+
+    subgraph "IMPORT Source Stream"
+        I1["🏗️ IMPORT1<br/>(Base: v0.9.0)<br/>🏷️ TAG: v1.0.0-imp1"]:::importNode
+        I2["🏗️ IMPORT2<br/>(Base: v0.9.0)<br/>🏷️ TAG: v1.0.0-imp2"]:::importNode
+        I3["🏗️ IMPORT3<br/>(Base: v0.9.0)<br/>🏷️ TAG: v1.0.0-imp3"]:::importNode
+        I4["🚫 IMPORT4 (사용 안 함)<br/>(Base: v0.9.0)<br/>🏷️ TAG: v1.0.0-imp4"]:::dimmed
+    end
+
+    subgraph "Integration Streams"
+        P["🔥 PATCH (Merged)<br/>(Base: v1.0.0-imp1/2)<br/>🏷️ TAG: v1.0.1-patch"]:::patchNode
+        
+        S1["⚙️ SETUP (Merged)<br/>(Base: v1.0.0-imp3)<br/>🏷️ TAG: v1.0.0-setup"]:::setupNode
+        S2["⚙️ setup (Merged)<br/>(Base: v1.0.0-setup)<br/>🏷️ TAG: v1.0.1-setup"]:::setupNode
+    end
+
+    subgraph "Target Stream"
+        M["🚀 MAIN<br/>(Base: MERGED)<br/>🏷️ TAG: v1.1.0-RC"]:::mainNode
+    end
 
     %% Flow Definitions
-    I1 --> P
-    I2 --> P
-    P --> M
+    I1 ==>|Merge| P
+    I2 ==>|Merge| P
+    P ==> M
     
-    I3 --> S1
+    I3 ==>|Merge| S1
     I4 -.->|사용 안 함| S1
     S1 --> S2
-    S2 --> M
-    
-    %% Styling
-    classDef main fill:#f9f,stroke:#333,stroke-width:2px;
-    classDef tag fill:#d4edda,stroke:#28a745,stroke-width:1px;
-    classDef dimmed fill:#e9ecef,stroke:#ced4da,stroke-width:1px,color:#6c757d,stroke-dasharray: 5 5;
-    
-    class M main;
-    class I1,I2,I3,P,S1,S2 tag;
-    class I4,S3,S4 dimmed;
+    S2 ==> M
 ```
 
 *참고: 위 TAG 명칭(v1.0.0 등)은 예시입니다. 실제 프로젝트의 태그 버전으로 관리됩니다.*
