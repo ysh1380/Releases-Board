@@ -22,15 +22,15 @@
 ## 🔄 릴리스 워크플로우 (Release Workflows)
 
 프로젝트 통합 및 파이프라인 흐름은 다음과 같습니다.
-- `IMPORT1` ➞ `PATCH` ➞ `MAIN`
-- `IMPORT2` ➞ `PATCH` ➞ `MAIN`
+- `IMPORT1` & `IMPORT2` ➞ **`PATCH` (통합)** ➞ `MAIN`
 - `IMPORT3` ➞ `SETUP` ➞ `setup2` ➞ `MAIN`
 - `IMPORT4` ➞ `SETUP` ➞ `setup3` ➞ `MAIN`
 
 **[진행 상황 특징]**
 - 각 배포 단계별로 **TAG**가 부여되어 관리됩니다.
 - ✅ **`IMPORT4` 경로**는 통합이 완료되어 `MAIN` 브랜치에 성공적으로 반영되었습니다.
-- 🔄 **그 외 파이프라인**(`IMPORT1`, `IMPORT2`, `IMPORT3` 경로)은 현재 **동시에 (병렬로) 계속 진행 중**입니다.
+- 🔄 **그 외 파이프라인**(`IMPORT1`, `IMPORT2`, `IMPORT3` 경로)은 현재 **동시에 (병렬로) 계속 진행 중**입니다. 
+- 🔗 **PATCH 브랜치 통합**: `IMPORT1`과 `IMPORT2`의 수정 사항은 하나의 `PATCH` 브랜치로 통합되어 관리됩니다.
 - **새로운 릴리스 흐름**: `IMPORT4`에서 기준점이 된 `MAIN` 브랜치를 바탕으로 향후 기타 흐름들이 계속 통합될 예정입니다.
 
 ### 📊 브랜치별 TAG 적용 현황 (DAG 표현)
@@ -43,8 +43,7 @@ graph LR
     I3["IMPORT3<br/>(Base: v0.9.0)<br/>TAG: v1.0.0-imp3"]
     I4["IMPORT4<br/>(Base: v0.9.0)<br/>TAG: v1.0.0-imp4"]
     
-    P1["PATCH<br/>(Base: v1.0.0-imp1)<br/>TAG: v1.0.1-patch"]
-    P2["PATCH<br/>(Base: v1.0.0-imp2)<br/>TAG: v1.0.2-patch"]
+    P["PATCH (Merged)<br/>(Base: v1.0.0-imp1/2)<br/>TAG: v1.0.1-patch"]
     
     S1["SETUP<br/>(Base: v1.0.0-imp3)<br/>TAG: v1.0.0-setup"]
     S2["setup2<br/>(Base: v1.0.0-setup)<br/>TAG: v1.0.1-setup"]
@@ -55,11 +54,9 @@ graph LR
     M["MAIN<br/>(Base: MERGED)<br/>TAG: v1.1.0-RC"]
 
     %% Flow Definitions
-    I1 --> P1
-    P1 --> M
-    
-    I2 --> P2
-    P2 --> M
+    I1 --> P
+    I2 --> P
+    P --> M
     
     I3 --> S1
     S1 --> S2
