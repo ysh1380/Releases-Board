@@ -25,12 +25,15 @@
 - `IMPORT1` ➞ `PATCH` ➞ `MAIN`
 - `IMPORT2` ➞ `PATCH` ➞ `MAIN`
 - `IMPORT3` ➞ `SETUP` ➞ `setup2` ➞ `MAIN`
+- `IMPORT4` ➞ `SETUP` ➞ `setup3` ➞ `MAIN`
 
 **[진행 상황 특징]**
 - 각 배포 단계별로 **TAG**가 부여되어 관리됩니다.
-- 모든 파이프라인(`IMPORT1`, `IMPORT2`, `IMPORT3` 등)은 **동시에 (병렬로) 진행** 중입니다.
+- ~~모든 파이프라인(`IMPORT1`, `IMPORT2`, `IMPORT3`, `IMPORT4` 등)은 **동시에 (병렬로) 진행** 중입니다.~~
+- 🚨 **[주의] 현재 `MAIN` 브랜치가 생성되어 통합이 완료되었으므로, 이전의 개별 파이프라인 흐름(위 과정)은 더 이상 사용하지 않습니다.**
+- **새로운 릴리스 흐름**: 향후 진행되는 모든 배포 워크플로우는 `MAIN` 브랜치를 기준으로 파생되어 진행됩니다.
 
-### 📊 브랜치별 TAG 적용 현황 (DAG 표현)
+### 📊 통합 완료 전 브랜치별 TAG 적용 현황 (DAG 표현 - 이력 보관용)
 
 ```mermaid
 graph LR
@@ -38,12 +41,16 @@ graph LR
     I1["IMPORT1<br/>(Base: v0.9.0)<br/>TAG: v1.0.0-imp1"]
     I2["IMPORT2<br/>(Base: v0.9.0)<br/>TAG: v1.0.0-imp2"]
     I3["IMPORT3<br/>(Base: v0.9.0)<br/>TAG: v1.0.0-imp3"]
+    I4["IMPORT4<br/>(Base: v0.9.0)<br/>TAG: v1.0.0-imp4"]
     
     P1["PATCH<br/>(Base: v1.0.0-imp1)<br/>TAG: v1.0.1-patch"]
     P2["PATCH<br/>(Base: v1.0.0-imp2)<br/>TAG: v1.0.2-patch"]
     
     S1["SETUP<br/>(Base: v1.0.0-imp3)<br/>TAG: v1.0.0-setup"]
     S2["setup2<br/>(Base: v1.0.0-setup)<br/>TAG: v1.0.1-setup"]
+    
+    S3["SETUP<br/>(Base: v1.0.0-imp4)<br/>TAG: v1.0.1-setup"]
+    S4["setup3<br/>(Base: v1.0.1-setup)<br/>TAG: v1.0.2-setup"]
     
     M["MAIN<br/>(Base: MERGED)<br/>TAG: v1.1.0-RC"]
 
@@ -57,6 +64,10 @@ graph LR
     I3 --> S1
     S1 --> S2
     S2 --> M
+    
+    I4 --> S3
+    S3 --> S4
+    S4 --> M
     
     %% Styling
     classDef main fill:#f9f,stroke:#333,stroke-width:2px;
