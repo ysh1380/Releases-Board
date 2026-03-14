@@ -69,9 +69,11 @@ graph LR
     %% Styling
     classDef main fill:#f9f,stroke:#333,stroke-width:2px;
     classDef tag fill:#d4edda,stroke:#28a745,stroke-width:1px;
+    classDef dimmed fill:#e9ecef,stroke:#ced4da,stroke-width:1px,color:#6c757d,stroke-dasharray: 5 5;
     
     class M main;
-    class I1,I2,I3,P1,P2,S1,S2 tag;
+    class I1,I2,I3,P,S1,S2 tag;
+    class I4,S3,S4 dimmed;
 ```
 
 *참고: 위 TAG 명칭(v1.0.0 등)은 예시입니다. 실제 프로젝트의 태그 버전으로 관리됩니다.*
